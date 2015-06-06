@@ -36,7 +36,25 @@ void SpaceSystem::addObject(SpaceObject *obj)
 
 void SpaceSystem::advance_all(double deltaT)
 {
-	for(unsigned int i=0; i < m_system.size(); i++){
+	unsigned int A,B,i;
+
+	/*#########################################
+	  for A in all objects
+		for B in all objects
+			A.addForce(B)
+
+	  for A in all objects
+		A.advance(deltaT);
+	###########################################*/
+
+	for(A=0; A < m_system.size(); A++){
+		for(B=0; B < m_system.size(); B++){
+			m_system[A]->addForce(m_system[B]);
+		}
+	}
+
+	//FIXME combine loops?
+	for(i=0; i < m_system.size(); i++){
 		m_system[i]->advance(deltaT);
 	}
 }

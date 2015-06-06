@@ -27,9 +27,10 @@ SpaceObject::SpaceObject(	const char *name,
 				double speed,	double direction,
 				double mass,	double radius)
 {
-	m_pos  = new Position(x,y);
-	m_move = new Movement(speed, direction);
-	m_body = new Body(mass, radius);
+	m_pos   = new Position(x,y);
+	m_move  = new Movement(speed, direction);
+	m_body  = new Body(mass, radius);
+	m_force = new Force();
 	mref_name = name;
 }
 
@@ -38,6 +39,19 @@ SpaceObject::~SpaceObject()
 	delete(m_pos);
 	delete(m_move);
 	delete(m_body);
+	delete(m_force);
+}
+
+void SpaceObject::add_forceInteraction(SpaceObject *other)
+{
+	d  = m_pos->distance_to(other->getPosRef());
+
+	b  = Position::get_bearing(  m_pos->get_x(),  m_pos->get_y(),
+			             other->get_x(),  other->get_y());
+
+	Fg = Force::get_gravitiy( d, m_body->get_mass(), other->get_mass());
+
+	m_force->addForce(Fg, b);
 }
 
 void SpaceObject::advance(double deltaT)
@@ -50,4 +64,9 @@ void SpaceObject::dbg_report()
 	printf("[ %-10s ] ", mref_name);
 	m_pos->dbg_report();
 	printf("\n");
+}
+
+Position* SpaceObject::getPosRef()
+{
+	return m_pos;
 }

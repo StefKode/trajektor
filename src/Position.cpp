@@ -50,6 +50,22 @@ double Position::distance_to(Position *other)
 	return d;
 }
 
+double Position::get_bearing(Position *other)
+{
+	double dx, dy, heading;
+
+	dx = other->get_x() - m_x;
+	dy = other->get_y() - m_y;
+	
+	heading = atan2(dx, dy);
+
+        if (heading < 0) {
+                heading = heading + (2 * M_PI);
+	}
+
+        return heading;
+}
+
 void Position::advance(Movement *move, double deltaT)
 {
 	double s, an, dx, dy;

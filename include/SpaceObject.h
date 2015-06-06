@@ -22,6 +22,7 @@
 #ifndef SPACEOBJECT_H
 #define SPACEOBJECT_H
 #include<Body.h>
+#include<Force.h>
 #include<Movement.h>
 #include<Position.h>
 
@@ -33,6 +34,7 @@ class SpaceObject {
 				double mass,	double radius);
 
 		~SpaceObject(void);
+		Position *getPosRef();
 		void advance(double deltaT);
 		void dbg_report();
 		
@@ -42,6 +44,7 @@ class SpaceObject {
 		Position *m_pos;
 		Movement *m_move;
 		Body     *m_body;
+		Force    *m_force;
 		const char *mref_name;
 
 		//optional properties

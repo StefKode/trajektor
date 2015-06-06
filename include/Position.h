@@ -28,6 +28,7 @@ class Position {
 		Position(          double x,       double y);
 		void   advance(    Movement *move, double deltaT);
 		double distance_to(Position *other);
+		double get_bearing(Position *other);
 		double get_x();
 		double get_y();
 		void   dbg_report();
