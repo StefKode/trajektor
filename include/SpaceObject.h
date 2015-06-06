@@ -19,15 +19,19 @@
  #
  ######################################################################################*/
 
-#ifndef BODY_H
-#define BODY_H
-#include <Position.h>
-#include <Movement.h>
-#include <Body.h>
+#ifndef SPACEOBJECT_H
+#define SPACEOBJECT_H
+#include<Body.h>
+#include<Movement.h>
+#include<Position.h>
 
 class SpaceObject {
 	public:
-		SpaceObject(void);
+		 SpaceObject(	double x, 	double y, 
+				double speed, 	double direction, 
+				double mass,	double radius);
+
+		~SpaceObject(void);
 		
 	private:
 
@@ -37,6 +41,6 @@ class SpaceObject {
 		Body     *m_body;
 
 		//optional properties
-}
+};
 
 #endif
