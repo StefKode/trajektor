@@ -1,0 +1,11 @@
+SOURCES = $(wildcard *.cpp)
+OBJECTS = $(SOURCES:.cpp=.o)
+
+all: $(OBJECTS)
+	ar rvs ../lib/libSpacePath.a $(OBJECTS)
+
+%.o: %.cpp
+	g++ -c -I../include -Wall $< -o $@
+
+clean:
+	rm -f *.o
