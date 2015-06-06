@@ -19,24 +19,44 @@
  #
  ######################################################################################*/
 
-#ifndef BODY_H
-#define BODY_H
-#include <Position.h>
-#include <Movement.h>
-#include <Body.h>
+#include<Movement.h>
+#include<Position.h>
+#include<math.h>
 
-class SpaceObject {
-	public:
-		SpaceObject(void);
-		
-	private:
-
-		//Mandatory properties
-		Position *m_pos;
-		Movement *m_move;
-		Body     *m_body;
-
-		//optional properties
+Position::Position(double x, double y)
+{
+	m_x = x;
+	m_y = y;
 }
 
-#endif
+double Position::get_x()
+{
+	return m_x;
+}
+
+double Position::get_y()
+{
+	return m_y;
+}
+
+double Position::distance_to(Position *other)
+{
+	double ax, ay, d;
+
+	ax = pow(m_x - other->get_x(), 2.0);
+	ay = pow(m_y - other->get_y(), 2.0);
+	d  = sqrt(ax + ay);
+	return d;
+}
+
+void Position::advance(Movement *move, double deltaT)
+{
+	double s, an, dx, dy;
+
+	s    = move->get_speed();
+	an   = move->get_direction();
+	dx   = s * deltaT * cos(an);
+	dy   = s * deltaT * sin(an);
+	m_x += dx;
+	m_y += dy;
+}

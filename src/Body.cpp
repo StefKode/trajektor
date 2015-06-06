@@ -19,24 +19,20 @@
  #
  ######################################################################################*/
 
-#ifndef BODY_H
-#define BODY_H
-#include <Position.h>
-#include <Movement.h>
-#include <Body.h>
+#include<Body.h>
 
-class SpaceObject {
-	public:
-		SpaceObject(void);
-		
-	private:
-
-		//Mandatory properties
-		Position *m_pos;
-		Movement *m_move;
-		Body     *m_body;
-
-		//optional properties
+Body::Body(double mass, double radius)
+{
+	m_mass   = mass;
+	m_radius = radius;
 }
 
-#endif
+double Body::get_mass()
+{
+	return m_mass;
+}
+
+double Body::get_radius()
+{
+	return m_radius;
+}

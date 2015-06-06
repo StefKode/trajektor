@@ -19,24 +19,20 @@
  #
  ######################################################################################*/
 
-#ifndef BODY_H
-#define BODY_H
-#include <Position.h>
-#include <Movement.h>
-#include <Body.h>
+#include<Movement.h>
 
-class SpaceObject {
-	public:
-		SpaceObject(void);
-		
-	private:
-
-		//Mandatory properties
-		Position *m_pos;
-		Movement *m_move;
-		Body     *m_body;
-
-		//optional properties
+Movement::Movement(double speed, double direction)
+{
+	m_speed     = speed;
+	m_direction = direction;
 }
 
-#endif
+double Movement::get_speed()
+{
+	return m_speed;
+}
+
+double Movement::get_direction()
+{
+	return m_direction;
+}
