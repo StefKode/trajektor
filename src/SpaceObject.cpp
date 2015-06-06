@@ -22,7 +22,7 @@
 #include<SpaceObject.h>
 #include<stdio.h>
 
-SpaceObject::SpaceObject(	char *name,
+SpaceObject::SpaceObject(	const char *name,
 				double x,	double y,
 				double speed,	double direction,
 				double mass,	double radius)

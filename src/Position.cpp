@@ -55,7 +55,7 @@ void Position::advance(Movement *move, double deltaT)
 	double s, an, dx, dy;
 
 	s    = move->get_speed();
-	an   = move->get_direction();
+	an   = move->get_direction_rad();
 	dx   = s * deltaT * cos(an);
 	dy   = s * deltaT * sin(an);
 	m_x += dx;

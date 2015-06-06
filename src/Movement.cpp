@@ -20,6 +20,7 @@
  ######################################################################################*/
 
 #include<Movement.h>
+#include<math.h>
 
 Movement::Movement(double speed, double direction)
 {
@@ -35,4 +36,12 @@ double Movement::get_speed()
 double Movement::get_direction()
 {
 	return m_direction;
+}
+
+double Movement::get_direction_rad()
+{
+	double dr;
+
+	dr = m_direction * 2 * M_PI / 360;
+	return dr;
 }

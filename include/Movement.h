@@ -27,11 +27,12 @@ class Movement {
 		Movement(double speed, double direction);
 		double get_speed();
 		double get_direction();
+		double get_direction_rad();
 
 	private:
 		//Mandatory properties
 		double m_speed;     //m/s
-		double m_direction; //angle/rad
+		double m_direction; //angle/degrees
 
 		//optional properties
 };

@@ -27,7 +27,7 @@
 
 class SpaceObject {
 	public:
-		 SpaceObject(	char  *name,
+		 SpaceObject(	const char *name,
 				double x, 	double y, 
 				double speed, 	double direction, 
 				double mass,	double radius);
@@ -42,7 +42,7 @@ class SpaceObject {
 		Position *m_pos;
 		Movement *m_move;
 		Body     *m_body;
-		char     *mref_name;
+		const char *mref_name;
 
 		//optional properties
 };
