@@ -27,11 +27,14 @@
 
 class SpaceObject {
 	public:
-		 SpaceObject(	double x, 	double y, 
+		 SpaceObject(	char  *name,
+				double x, 	double y, 
 				double speed, 	double direction, 
 				double mass,	double radius);
 
 		~SpaceObject(void);
+		void advance(double deltaT);
+		void dbg_report();
 		
 	private:
 
@@ -39,6 +42,7 @@ class SpaceObject {
 		Position *m_pos;
 		Movement *m_move;
 		Body     *m_body;
+		char     *mref_name;
 
 		//optional properties
 };

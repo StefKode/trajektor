@@ -30,6 +30,7 @@ class Position {
 		double distance_to(Position *other);
 		double get_x();
 		double get_y();
+		void   dbg_report();
 		
 	private:
 

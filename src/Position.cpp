@@ -22,6 +22,7 @@
 #include<Movement.h>
 #include<Position.h>
 #include<math.h>
+#include<stdio.h>
 
 Position::Position(double x, double y)
 {
@@ -59,4 +60,9 @@ void Position::advance(Movement *move, double deltaT)
 	dy   = s * deltaT * sin(an);
 	m_x += dx;
 	m_y += dy;
+}
+
+void Position::dbg_report()
+{
+	printf("x = %10.2f, y = %10.2f", m_x, m_y);
 }

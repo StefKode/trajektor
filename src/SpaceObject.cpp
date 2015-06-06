@@ -20,14 +20,17 @@
  ######################################################################################*/
 
 #include<SpaceObject.h>
+#include<stdio.h>
 
-SpaceObject::SpaceObject(	double x,	double y,
+SpaceObject::SpaceObject(	char *name,
+				double x,	double y,
 				double speed,	double direction,
 				double mass,	double radius)
 {
 	m_pos  = new Position(x,y);
 	m_move = new Movement(speed, direction);
 	m_body = new Body(mass, radius);
+	mref_name = name;
 }
 
 SpaceObject::~SpaceObject()
@@ -35,4 +38,16 @@ SpaceObject::~SpaceObject()
 	delete(m_pos);
 	delete(m_move);
 	delete(m_body);
+}
+
+void SpaceObject::advance(double deltaT)
+{
+	m_pos->advance(m_move, deltaT);
+}
+
+void SpaceObject::dbg_report()
+{
+	printf("[ %-10s ] ", mref_name);
+	m_pos->dbg_report();
+	printf("\n");
 }
