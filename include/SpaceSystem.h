@@ -28,7 +28,7 @@ class SpaceSystem {
 	public:
 		 SpaceSystem();
 		~SpaceSystem(void);
-		void addObject(SpaceObject *obj);
+		void add(SpaceObject *obj);
 		void advance_all(double deltaT);
 		void dbg_report();
 		

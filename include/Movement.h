@@ -25,6 +25,7 @@
 class Movement {
 	public:
 		Movement(double speed, double direction);
+		void   add_moveVector(double add_speed, double add_direction);
 		double get_speed();
 		double get_direction();
 		double get_direction_rad();

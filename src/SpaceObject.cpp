@@ -71,6 +71,14 @@ void SpaceObject::add_forceInteraction(SpaceObject *other)
 
 void SpaceObject::advance(double deltaT)
 {
+	double d;
+
+	//F=m*a
+	//a=F/m
+	//move_new = move_old + F/m
+	d = deltaT * m_force->get_currentForce() / m_body->get_mass();
+
+	m_move->add_moveVector(d, m_force->get_currentDirection());
 	m_pos->advance(m_move, deltaT);
 }
 
