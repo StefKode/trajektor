@@ -31,6 +31,7 @@ class SpaceSystem {
 		void add(SpaceObject *obj);
 		void advance_all(double deltaT);
 		void dbg_report();
+		void dbg_report(const char *name);
 		
 	private:
 		std::vector<SpaceObject*> m_system;

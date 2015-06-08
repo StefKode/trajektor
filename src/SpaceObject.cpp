@@ -21,6 +21,7 @@
 
 #include<SpaceObject.h>
 #include<stdio.h>
+#include<string.h>
 
 SpaceObject::SpaceObject(	const char *name,
 				double x,	double y,
@@ -92,4 +93,12 @@ void SpaceObject::dbg_report()
 Position* SpaceObject::get_posRef()
 {
 	return m_pos;
+}
+
+bool SpaceObject::nameMatch(const char *name)
+{
+	if (strcmp(name, mref_name) == 0) {
+		return true;
+	}
+	return false;
 }

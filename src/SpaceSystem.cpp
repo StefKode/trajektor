@@ -52,7 +52,9 @@ void SpaceSystem::advance_all(double deltaT)
 
 	for (A=0; A < m_system.size(); A++) {
 		for (B=0; B < m_system.size(); B++) {
-			m_system[A]->add_forceInteraction(m_system[B]);
+			if (A != B) {
+				m_system[A]->add_forceInteraction(m_system[B]);
+			}
 		}
 	}
 
@@ -66,5 +68,14 @@ void SpaceSystem::dbg_report()
 {
 	for(unsigned int i=0; i < m_system.size(); i++){
 		m_system[i]->dbg_report();
+	}
+}
+
+void SpaceSystem::dbg_report(const char *name)
+{
+	for(unsigned int i=0; i < m_system.size(); i++){
+		if (m_system[i]->nameMatch(name)) {
+			m_system[i]->dbg_report();
+		}
 	}
 }

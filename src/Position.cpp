@@ -80,5 +80,5 @@ void Position::advance(Movement *move, double deltaT)
 
 void Position::dbg_report()
 {
-	printf("x = %10.2f, y = %10.2f", m_x, m_y);
+	printf("x = %10.2e, y = %10.2e", m_x, m_y);
 }

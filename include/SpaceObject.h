@@ -41,6 +41,7 @@ class SpaceObject {
 		double    get_y();
 		double    get_mass();
 		void      dbg_report();
+		bool      nameMatch(const char *);
 		
 	private:
 
