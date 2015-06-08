@@ -32,11 +32,15 @@ class SpaceObject {
 				double x, 	double y, 
 				double speed, 	double direction, 
 				double mass,	double radius);
-
 		~SpaceObject(void);
-		Position *getPosRef();
-		void advance(double deltaT);
-		void dbg_report();
+
+		Position *get_posRef();
+		void      add_forceInteraction(SpaceObject *other);
+		void      advance(double deltaT);
+		double    get_x();
+		double    get_y();
+		double    get_mass();
+		void      dbg_report();
 		
 	private:
 

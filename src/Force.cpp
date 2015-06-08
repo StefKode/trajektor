@@ -39,7 +39,7 @@ void Force::add_forceVector(double force, double direction)
 	fy2 = force * sin(direction);
 
 	fx = fx1 + fx2;
-	fy = fy2 + fy2;
+	fy = fy1 + fy2;
 
 	m_force = sqrt((fx * fx) + (fy * fy));
 	
@@ -62,7 +62,7 @@ double Force::get_currentDirection()
 	return m_direction;
 }
 
-static double Force::get_gravity(double r, double m1, double m2)
+double Force::get_gravity(double r, double m1, double m2)
 {
 	const double G = 6.67384e-11;
 	double Fg;

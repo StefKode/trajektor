@@ -26,8 +26,9 @@ class Force {
 	public:
 		Force();
 		void   add_forceVector(double force, double direction);
-		double get_forceResult();
-		double get_directionResult();
+		double get_currentForce();
+		double get_currentDirection();
+
 		static double get_gravity(double r, double m1, double m2);
 		
 	private:

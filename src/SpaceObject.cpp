@@ -42,16 +42,31 @@ SpaceObject::~SpaceObject()
 	delete(m_force);
 }
 
+double SpaceObject::get_x()
+{
+	return m_pos->get_x();
+}
+
+double SpaceObject::get_y()
+{
+	return m_pos->get_y();
+}
+
+double SpaceObject::get_mass() {
+	return m_body->get_mass();
+}
+
 void SpaceObject::add_forceInteraction(SpaceObject *other)
 {
-	d  = m_pos->distance_to(other->getPosRef());
+	double d, b, Fg;
 
-	b  = Position::get_bearing(  m_pos->get_x(),  m_pos->get_y(),
-			             other->get_x(),  other->get_y());
+	d  = m_pos->distance_to(other->get_posRef());
 
-	Fg = Force::get_gravitiy( d, m_body->get_mass(), other->get_mass());
+	b  = m_pos->get_bearing(other->get_posRef());
 
-	m_force->addForce(Fg, b);
+	Fg = Force::get_gravity(d, m_body->get_mass(), other->get_mass());
+
+	m_force->add_forceVector(Fg, b);
 }
 
 void SpaceObject::advance(double deltaT)
@@ -66,7 +81,7 @@ void SpaceObject::dbg_report()
 	printf("\n");
 }
 
-Position* SpaceObject::getPosRef()
+Position* SpaceObject::get_posRef()
 {
 	return m_pos;
 }

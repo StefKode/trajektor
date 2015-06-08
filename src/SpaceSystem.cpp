@@ -49,7 +49,7 @@ void SpaceSystem::advance_all(double deltaT)
 
 	for(A=0; A < m_system.size(); A++){
 		for(B=0; B < m_system.size(); B++){
-			m_system[A]->addForce(m_system[B]);
+			m_system[A]->add_forceInteraction(m_system[B]);
 		}
 	}
 
