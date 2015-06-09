@@ -56,16 +56,60 @@ void t_position(int *err, int *pass)
 	Position *o = new Position(2,1);
 	Position *q = new Position(2,2);
 	Position *s = new Position(1,2);
-	printf("bla %E\n", atan2(2,0));
-	check("distance_to", r->distance_to(o),     2.0, 0.001, err, pass);
-	check("distance_to", r->distance_to(q), sqrt(5), 0.001, err, pass);
-	check("get_bearing", r->get_bearing(o),     0.0, 0.001, err, pass);
-	check("get_bearing", r->get_bearing(s),  M_PI/4, 0.001, err, pass);
-	delete p;
-	delete r;
-	delete o;
+	Position *t = new Position(-1,0);
+	check("1 distance_to", r->distance_to(o),       2.0, 0.001, err, pass);
+	check("2 distance_to", r->distance_to(q),   sqrt(5), 0.001, err, pass);
+	check("1 get_bearing", r->get_bearing(o),       0.0, 0.001, err, pass);
+	check("2 get_bearing", r->get_bearing(s),    M_PI/4, 0.001, err, pass);
+	check("3 get_bearing", r->get_bearing(t), 1.25*M_PI, 0.001, err, pass);
+	
+	Position *base   = new Position(0,0);
+	Position *walker = new Position(0,0);
+	Movement *m_r1 = new Movement(1.0,     0);
+	Movement *m_l1 = new Movement(1.0, 180.0);
+	Movement *m_u1 = new Movement(1.0,  90.0);
+	Movement *m_d1 = new Movement(1.0, 270.0);
+	
+	//---
+	printf("check walk right\n");
+	check("pre check  x..", walker->get_x(), 0.0, 0.001, err, pass);
+	check("pre check  y..", walker->get_y(), 0.0, 0.001, err, pass);
+	walker->advance(m_r1, 1.0); //right 1m
+	check("advance r1 x..", walker->get_x(), 1.0, 0.001, err, pass);
+	check("advance r1 y..", walker->get_y(), 0.0, 0.001, err, pass);
+	check("advance bear..", base->get_bearing(walker), 0.0, 0.001, err, pass);
+	//--walker is now at 1,0
+	
+	//---
+	printf("check walk down\n");
+	walker->advance(m_d1, 1.0); //down 1m
+	check("advance d1 x..", walker->get_x(),  1.0, 0.001, err, pass);
+	check("advance d1 y..", walker->get_y(), -1.0, 0.001, err, pass);
+	check("advance bear..", base->get_bearing(walker), 1.75*M_PI, 0.001, err, pass);
+	//--walker is now at 1,-1
+
+	//---
+	printf("check walk 2 left and two up\n");
+	walker->advance(m_l1, 2.0); //left 2m
+	walker->advance(m_u1, 2.0); //up 2m
+	check("advance d1 x..", walker->get_x(), -1.0, 0.001, err, pass);
+	check("advance d1 y..", walker->get_y(),  1.0, 0.001, err, pass);
+	check("advance bear..", base->get_bearing(walker), 0.75*M_PI, 0.001, err, pass);
+	//--walker is now at -1,1
 }
 
+void t_force(int *err, int *pass)
+{
+	//-----------------------------------------------------------------
+	printf("****** Test Force ********\n");
+	Force *f1 = new Force();
+	check("get_currentForce    ", f1->get_currentForce(),     0.0, 0.0, err, pass);
+	check("get_currentDirection", f1->get_currentDirection(), 0.0, 0.0, err, pass);
+	
+	//--
+	f1.add_forceVector(1.0, 0);
+}
+	
 int main()
 {
 	int err  = 0;
@@ -74,6 +118,7 @@ int main()
 	t_body(&err,     &pass);
 	t_movement(&err, &pass);
 	t_position(&err, &pass);
+	t_force(&err, &pass);
 
 	printf("\n-----------------------------\n");
 	printf("PASS = %d\n", pass);
