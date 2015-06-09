@@ -57,7 +57,8 @@ double Position::get_bearing(Position *other)
 	dx = other->get_x() - m_x;
 	dy = other->get_y() - m_y;
 	
-	heading = atan2(dx, dy);
+	//rotate angular system by -90 degrees and invert
+	heading = (M_PI/2) - atan2(dx, dy);
 
         if (heading < 0) {
                 heading = heading + (2 * M_PI);

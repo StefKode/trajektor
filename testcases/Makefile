@@ -7,6 +7,9 @@ all: $(OBJECTS)
 		g++ $$targ.o ../lib/libSpacePath.a -o $$targ; \
 	done
 
+test:	all
+	./test_unit
+
 %.o: %.cpp
 	g++ -c -I../include -Wall $< -o $@
 

@@ -12,6 +12,9 @@ $(SUBDIRS):
 mkdirs:
 	mkdir -p lib
 
+test:	all
+	$(MAKE) -C testcases test
+
 clean:
 	rm -rf lib
 	for dir in $(SUBDIRS); do \
