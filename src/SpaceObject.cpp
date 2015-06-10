@@ -20,15 +20,20 @@
  ######################################################################################*/
 
 #include<SpaceObject.h>
-#include<stdio.h>
 #include<string.h>
+#include<iostream>
+#include<Eigen/Dense>
+
+using namespace Eigen;
 
 SpaceObject::SpaceObject(	const char *name,
 				double x,	double y,
 				double speed,	double direction,
 				double mass,	double radius)
 {
-	m_pos   = new Position(x,y);
+	m_pos  = new VectorXd(3);
+	m_pos << x, y;
+
 	m_move  = new Movement(speed, direction);
 	m_body  = new Body(mass, radius);
 	m_force = new Force();

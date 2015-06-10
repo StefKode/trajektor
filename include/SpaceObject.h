@@ -21,10 +21,7 @@
 
 #ifndef SPACEOBJECT_H
 #define SPACEOBJECT_H
-#include<Body.h>
-#include<Force.h>
-#include<Movement.h>
-#include<Position.h>
+#include<Eigen/Dense>
 
 class SpaceObject {
 	public:
@@ -34,7 +31,7 @@ class SpaceObject {
 				double mass,	double radius);
 		~SpaceObject(void);
 
-		Position *get_posRef();
+		VectorXd *get_posRef();
 		void      add_forceInteraction(SpaceObject *other);
 		void      advance(double deltaT);
 		double    get_x();
@@ -46,10 +43,10 @@ class SpaceObject {
 	private:
 
 		//Mandatory properties
-		Position *m_pos;
-		Movement *m_move;
-		Body     *m_body;
-		Force    *m_force;
+		VectorXd *m_pos;
+		VectorXd *m_move;
+		VectorXd *m_body;
+		VectorXd *m_force;
 		const char *mref_name;
 
 		//optional properties
