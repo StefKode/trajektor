@@ -24,42 +24,19 @@
 
 Force::Force()
 {
-	m_force     = 0.0;
-	m_direction = 0.0;
+	m_vect = new Eigen::Vector3d(1,2,3);
 }
 
-void Force::add_forceVector(double force, double direction)
+void Force::add_forceVector(double x, double y, double z)
 {
-	double fx1, fy1, fx2, fy2, fx, fy, heading;
-	
-	fx1 = m_force * cos(m_direction);
-	fy1 = m_force * sin(m_direction);
-
-	fx2 = force * cos(direction);
-	fy2 = force * sin(direction);
-
-	fx = fx1 + fx2;
-	fy = fy1 + fy2;
-
-	m_force = sqrt((fx * fx) + (fy * fy));
-	
-	heading = atan2(fx, fy);
-
-        if (heading < 0) {
-                heading = heading + (2 * M_PI);
-	}
-	
-	m_direction = heading;
+	Eigen::Vector3d add(1,2,3);
+	add << x, y, z;
+	m_vect += add;
 }
 
 double Force::get_currentForce()
 {
-	return m_force;
-}
-
-double Force::get_currentDirection()
-{
-	return m_direction;
+	return 0;
 }
 
 double Force::get_gravity(double r, double m1, double m2)

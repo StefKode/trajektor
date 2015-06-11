@@ -107,7 +107,7 @@ void t_force(int *err, int *pass)
 	check("get_currentDirection", f1->get_currentDirection(), 0.0, 0.0, err, pass);
 	
 	//--
-	f1.add_forceVector(1.0, 0);
+	//f1.add_forceVector(1.0, 0);
 }
 	
 int main()

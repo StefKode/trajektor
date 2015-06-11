@@ -21,21 +21,17 @@
 
 #ifndef FORCE_H
 #define FORCE_H
+#include<Eigen/Dense>
 
 class Force {
 	public:
 		Force();
-		void   add_forceVector(double force, double direction);
-		double get_currentForce();
-		double get_currentDirection();
-
+		void add_forceVector(double x, double y, double z);
 		static double get_gravity(double r, double m1, double m2);
 		
 	private:
-
 		//Mandatory properties
-		double m_force;   //N
-		double m_direction; //m
+		Eigen::Vector3d *m_vect;
 
 		//optional properties
 };
