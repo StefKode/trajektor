@@ -25,20 +25,21 @@
 #include<Force.h>
 #include<Movement.h>
 #include<Position.h>
+#include<Eigen/Dense>
+
+using namespace Eigen;
 
 class SpaceObject {
 	public:
 		 SpaceObject(	const char *name,
-				double x, 	double y, 
-				double speed, 	double direction, 
+				double px, double py, double pz,
+				double vx, double vy, double vz,
 				double mass,	double radius);
 		~SpaceObject(void);
 
 		Position *get_posRef();
 		void      add_forceInteraction(SpaceObject *other);
 		void      advance(double deltaT);
-		double    get_x();
-		double    get_y();
 		double    get_mass();
 		void      dbg_report();
 		bool      nameMatch(const char *);

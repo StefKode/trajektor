@@ -23,13 +23,18 @@
 #include<stdio.h>
 #include<string.h>
 
-SpaceObject::SpaceObject(	const char *name,
-				double x,	double y,
-				double speed,	double direction,
-				double mass,	double radius)
+SpaceObject::SpaceObject(const char *name, 
+			 double px, double py, double pz,
+			 double vx, double vy, double vz,
+		 	 double mass, double radius)
 {
-	m_pos   = new Position(x,y);
-	m_move  = new Movement(speed, direction);
+	Vector3d p(1,2,3);
+	Vector3d v(1,2,3);
+	p << px, py, pz;
+	v << vx, vy, vz;
+
+	m_pos   = new Position(p);
+	m_move  = new Movement(v);
 	m_body  = new Body(mass, radius);
 	m_force = new Force();
 	mref_name = name;
@@ -43,43 +48,32 @@ SpaceObject::~SpaceObject()
 	delete(m_force);
 }
 
-double SpaceObject::get_x()
-{
-	return m_pos->get_x();
-}
-
-double SpaceObject::get_y()
-{
-	return m_pos->get_y();
-}
-
 double SpaceObject::get_mass() {
 	return m_body->get_mass();
 }
 
 void SpaceObject::add_forceInteraction(SpaceObject *other)
 {
-	double d, b, Fg;
+	double d, Fg;
 
 	d  = m_pos->distance_to(other->get_posRef());
-
-	b  = m_pos->get_bearing(other->get_posRef());
-
 	Fg = Force::get_gravity(d, m_body->get_mass(), other->get_mass());
 
-	m_force->add_forceVector(Fg, b);
+	m_force->add_forceVector(Fg, other->get_posRef()->get_vect());
 }
 
 void SpaceObject::advance(double deltaT)
 {
-	double d;
+	Vector3d mAddVect;
 
 	//F=m*a
 	//a=F/m
-	//move_new = move_old + F/m
-	d = deltaT * m_force->get_currentForce() / m_body->get_mass();
+	//move_change=a * deltaT
+	//move_new = move_old + move_change
 
-	m_move->add_moveVector(d, m_force->get_currentDirection());
+	mAddVect = deltaT * m_force->get_vect() / m_body->get_mass();
+
+	m_move->add_moveVector(mAddVect);
 	m_pos->advance(m_move, deltaT);
 }
 

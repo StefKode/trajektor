@@ -23,11 +23,14 @@
 #define FORCE_H
 #include<Eigen/Dense>
 
+using namespace Eigen;
+
 class Force {
 	public:
 		Force();
-		void add_forceVector(double x, double y, double z);
+		void add_forceVector(double force, Vector3d destObjVect);
 		static double get_gravity(double r, double m1, double m2);
+		Vector3d get_vect();
 		
 	private:
 		//Mandatory properties

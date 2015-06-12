@@ -11,7 +11,7 @@ test:	all
 	./test_unit
 
 %.o: %.cpp
-	g++ -c -I../include -Wall $< -o $@
+	g++ -c -I../include -I/usr/include/eigen3 -Wall $< -o $@
 
 clean:
 	rm -f *.o

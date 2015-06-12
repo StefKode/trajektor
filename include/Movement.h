@@ -21,19 +21,19 @@
 
 #ifndef MOVEMENT_H
 #define MOVEMENT_H
+#include <Eigen/Dense>
+
+using namespace Eigen;
 
 class Movement {
 	public:
-		Movement(double speed, double direction);
-		void   add_moveVector(double add_speed, double add_direction);
-		double get_speed();
-		double get_direction();
-		double get_direction_rad();
+		Movement(Vector3d init);
+		void   add_moveVector(Vector3d add);
+		Vector3d get_vect();
 
 	private:
 		//Mandatory properties
-		double m_speed;     //m/s
-		double m_direction; //angle/degrees
+		Vector3d *m_vect;
 
 		//optional properties
 };

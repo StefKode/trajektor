@@ -24,62 +24,30 @@
 #include<math.h>
 #include<stdio.h>
 
-Position::Position(double x, double y)
+Position::Position(Vector3d init)
 {
-	m_x = x;
-	m_y = y;
+	m_vect  = new Vector3d(1,2,3);
+	*m_vect = init;
 }
 
-double Position::get_x()
+Vector3d Position::get_vect()
 {
-	return m_x;
-}
-
-double Position::get_y()
-{
-	return m_y;
+	return *m_vect;
 }
 
 double Position::distance_to(Position *other)
 {
-	double ax, ay, d;
-
-	ax = pow(m_x - other->get_x(), 2.0);
-	ay = pow(m_y - other->get_y(), 2.0);
-	d  = sqrt(ax + ay);
-	return d;
-}
-
-double Position::get_bearing(Position *other)
-{
-	double dx, dy, heading;
-
-	dx = other->get_x() - m_x;
-	dy = other->get_y() - m_y;
-	
-	//rotate angular system by -90 degrees and invert
-	heading = (M_PI/2) - atan2(dx, dy);
-
-        if (heading < 0) {
-                heading = heading + (2 * M_PI);
-	}
-
-        return heading;
+	Vector3d tmp;
+	tmp = other->get_vect() - *m_vect;
+	return tmp.norm();
 }
 
 void Position::advance(Movement *move, double deltaT)
 {
-	double s, an, dx, dy;
-
-	s    = move->get_speed();
-	an   = move->get_direction_rad();
-	dx   = s * deltaT * cos(an);
-	dy   = s * deltaT * sin(an);
-	m_x += dx;
-	m_y += dy;
+	*m_vect += move->get_vect() * deltaT;
 }
 
 void Position::dbg_report()
 {
-	printf("x = %10.2e, y = %10.2e", m_x, m_y);
+	printf("x = %10.2e, y = %10.2e, z = %10.2e", (*m_vect)(1), (*m_vect)(2),(*m_vect)(3));
 }

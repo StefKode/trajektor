@@ -25,18 +25,21 @@
 Force::Force()
 {
 	m_vect = new Eigen::Vector3d(1,2,3);
+	*m_vect << 0, 0, 0;
 }
 
-void Force::add_forceVector(double x, double y, double z)
+void Force::add_forceVector(double Fg, Vector3d destObjVect)
 {
-	Eigen::Vector3d add(1,2,3);
-	add << x, y, z;
-	m_vect += add;
+	Vector3d otherNorm = destObjVect;
+
+	otherNorm.normalize();
+	otherNorm *= Fg;
+	*m_vect   += otherNorm;
 }
 
-double Force::get_currentForce()
+Vector3d Force::get_vect()
 {
-	return 0;
+	return *m_vect;
 }
 
 double Force::get_gravity(double r, double m1, double m2)

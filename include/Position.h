@@ -22,22 +22,22 @@
 #ifndef POSITION_H
 #define POSITION_H
 #include <Movement.h>
+#include <Eigen/Dense>
+
+using namespace Eigen;
 
 class Position {
 	public:
-		Position(          double x,       double y);
-		void   advance(    Movement *move, double deltaT);
+		Position(Vector3d init);
+		void   advance(Movement *move, double deltaT);
 		double distance_to(Position *other);
-		double get_bearing(Position *other);
-		double get_x();
-		double get_y();
+		Vector3d get_vect();
 		void   dbg_report();
 		
 	private:
 
 		//Mandatory properties
-		double m_x;
-		double m_y;
+		Vector3d *m_vect;
 
 		//optional properties
 };
