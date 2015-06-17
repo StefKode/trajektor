@@ -47,7 +47,7 @@ void Position::advance(Movement *move, double deltaT)
 	*m_vect += move->get_vect() * deltaT;
 }
 
-void Position::dbg_report()
+void Position::report()
 {
-	printf("x = %10.2e, y = %10.2e, z = %10.2e", (*m_vect)(0), (*m_vect)(1),(*m_vect)(2));
+	printf("X=%10.2e_m Y=%10.2e_m (%e) | ", (*m_vect)(0), (*m_vect)(1), m_vect->norm());
 }

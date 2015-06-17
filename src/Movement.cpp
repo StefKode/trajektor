@@ -19,6 +19,7 @@
  #
  ######################################################################################*/
 
+#include<stdio.h>
 #include<Movement.h>
 #include<math.h>
 
@@ -36,4 +37,11 @@ void Movement::add_moveVector(Vector3d add)
 Vector3d Movement::get_vect()
 {
 	return *m_vect;
+}
+
+void Movement::report()
+{
+	printf("Vx=%10.2e_m/s ", (*m_vect)(0));
+	printf("Vy=%10.2e_m/s ", (*m_vect)(1));
+	printf("(%e) | ", m_vect->norm());
 }

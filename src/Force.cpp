@@ -19,8 +19,10 @@
  #
  ######################################################################################*/
 
+#include<stdio.h>
 #include<Force.h>
 #include<math.h>
+#include<stdio.h>
 
 Force::Force()
 {
@@ -28,13 +30,9 @@ Force::Force()
 	*m_vect << 0, 0, 0;
 }
 
-void Force::add_forceVector(double Fg, Vector3d destObjVect)
+void Force::add_forceVector(Vector3d addForce)
 {
-	Vector3d otherNorm = destObjVect;
-
-	otherNorm.normalize();
-	otherNorm *= Fg;
-	*m_vect   += otherNorm;
+	*m_vect += addForce;
 }
 
 Vector3d Force::get_vect()
@@ -49,4 +47,16 @@ double Force::get_gravity(double r, double m1, double m2)
 
 	Fg = G * m1 * m2 / (r * r);
 	return Fg;
+}
+
+void Force::clear()
+{
+	*m_vect << 0, 0, 0;
+}
+
+void Force::report()
+{
+	printf("Fx=%10.2e_N ", (*m_vect)(0));
+	printf("Fy=%10.2e_N ", (*m_vect)(1));
+	printf("(%e) | ", m_vect->norm());
 }

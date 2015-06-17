@@ -32,7 +32,7 @@ class Position {
 		void   advance(Movement *move, double deltaT);
 		double distance_to(Position *other);
 		Vector3d get_vect();
-		void   dbg_report();
+		void   report();
 		
 	private:
 

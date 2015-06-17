@@ -64,18 +64,18 @@ void SpaceSystem::advance_all(double deltaT)
 	}
 }
 
-void SpaceSystem::dbg_report()
+void SpaceSystem::report()
 {
 	for(unsigned int i=0; i < m_system.size(); i++){
-		m_system[i]->dbg_report();
+		m_system[i]->report();
 	}
 }
 
-void SpaceSystem::dbg_report(const char *name)
+void SpaceSystem::report(const char *name)
 {
 	for(unsigned int i=0; i < m_system.size(); i++){
 		if (m_system[i]->nameMatch(name)) {
-			m_system[i]->dbg_report();
+			m_system[i]->report();
 		}
 	}
 }

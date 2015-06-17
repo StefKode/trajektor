@@ -5,12 +5,12 @@ int main()
 {
 	SpaceSystem sys;
 
-	//-----------------------name----------x--------y----speed------dir-----mass----------radius
-	sys.add(new SpaceObject("earth", 0,       0, 0, 0, 0, 0, 5.97219e24, 0.0));
-	sys.add(new SpaceObject("sat",   0, 200.0e3, 0, 7.8e3, 0, 0,        1.0, 0.0));
+	//                        name                pos           move           m        r
+	sys.add(new SpaceObject("earth",          0, 0, 0,       0, 0, 0,   5.972e24, 6.371e6));
+	sys.add(new SpaceObject("sat",    0, 206.371e6, 0,   7.8e3, 0, 0,          1,       1));
 
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < 1000000; i++) {
 		sys.advance_all(1);
-		sys.dbg_report("sat");
+		sys.report("sat");
 	}
 }

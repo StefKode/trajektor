@@ -38,10 +38,12 @@ class SpaceObject {
 		~SpaceObject(void);
 
 		Position *get_posRef();
+		double    get_pos(unsigned int idx);
 		void      add_forceInteraction(SpaceObject *other);
 		void      advance(double deltaT);
+		void	  clearForce();
 		double    get_mass();
-		void      dbg_report();
+		void      report();
 		bool      nameMatch(const char *);
 		
 	private:

@@ -59,7 +59,11 @@ void SpaceObject::add_forceInteraction(SpaceObject *other)
 	d  = m_pos->distance_to(other->get_posRef());
 	Fg = Force::get_gravity(d, m_body->get_mass(), other->get_mass());
 
-	m_force->add_forceVector(Fg, other->get_posRef()->get_vect());
+	Vector3d direction;
+	direction = other->get_posRef()->get_vect() - m_pos->get_vect();
+	direction.normalize();
+
+	m_force->add_forceVector(Fg * direction);
 }
 
 void SpaceObject::advance(double deltaT)
@@ -77,16 +81,31 @@ void SpaceObject::advance(double deltaT)
 	m_pos->advance(m_move, deltaT);
 }
 
-void SpaceObject::dbg_report()
+void SpaceObject::report()
 {
-	printf("[ %-10s ] ", mref_name);
-	m_pos->dbg_report();
+	printf("%-10s | ", mref_name);
+	m_pos->report();
+	m_move->report();
+	m_force->report();
 	printf("\n");
 }
 
 Position* SpaceObject::get_posRef()
 {
 	return m_pos;
+}
+
+void SpaceObject::clearForce()
+{
+	m_force->clear();
+}
+
+double SpaceObject::get_pos(unsigned int idx)
+{
+	if (idx > 3) {
+		throw "Pos-Index out of bounds";
+	}
+	return (m_pos->get_vect())(idx);
 }
 
 bool SpaceObject::nameMatch(const char *name)

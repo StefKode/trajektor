@@ -30,6 +30,7 @@ class Movement {
 		Movement(Vector3d init);
 		void   add_moveVector(Vector3d add);
 		Vector3d get_vect();
+		void report();
 
 	private:
 		//Mandatory properties

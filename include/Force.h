@@ -28,9 +28,11 @@ using namespace Eigen;
 class Force {
 	public:
 		Force();
-		void add_forceVector(double force, Vector3d destObjVect);
+		void add_forceVector(Vector3d addForce);
 		static double get_gravity(double r, double m1, double m2);
 		Vector3d get_vect();
+		void clear();
+		void report();
 		
 	private:
 		//Mandatory properties
