@@ -101,33 +101,40 @@ void t_spaceobject(int *err, int *pass)
 	//-----------------------------------------------------------------
 	printf("****** Test SpaceObject *******\n");
 	//                                 name                     pos       move           m        r
-	SpaceObject *so0 = new SpaceObject("test-earth",        0, 0, 0,   0, 0, 0,   5.972e24, 6.371e6); //earth
-	SpaceObject *so1 = new SpaceObject("test-stone",  0, 6.371e6, 0,   0, 0, 0,          1,       1); //stone
-	check("so1 pos check x", so1->get_pos(0),     0.0, 0,err, pass);
-	check("so1 pos check y", so1->get_pos(1), 6.371e6, 0,err, pass);
-	check("so1 pos check z", so1->get_pos(2),     0.0, 0,err, pass);
-	so0->report();
-	so1->report();
-	so1->add_forceInteraction(so0);
-	so1->advance(1);
-	so1->report();
+	SpaceObject *so0 = new SpaceObject("test-earth",        1, 2, 3,   0, 0, 0,   5.972e24, 6.371e6); //earth
+	check("so1 pos check x", so0->get_pos(0), 1.0, 0, err, pass);
+	check("so1 pos check y", so0->get_pos(1), 2.0, 0, err, pass);
+	check("so1 pos check z", so0->get_pos(2), 3.0, 0, err, pass);
 
-	printf("**--drop test--**\n");
+	printf("**--drop test y --**\n");
 	//                                     name                    pos           move          m        r
-	SpaceObject *earth = new SpaceObject("earth",              0, 0, 0,      0, 0, 0,   5.972e24, 6.371e6); //earth
-	SpaceObject *stone = new SpaceObject("testbody_1",   0, 6.371e6, 0,   0, 9.81, 0,          1,       1); //1kg, 1m, sealevel
-	earth->report();
-	for (int i=0; i < 43; i++) {
-		printf("%3.1fs stone delta=%5.2f\n", 0.1*(float)i, stone->get_pos(1) - 6.371e6);
-		stone->clearForce();
-		earth->clearForce();
-
-		stone->add_forceInteraction(earth);
-		earth->add_forceInteraction(stone);
-		stone->advance(0.01);
-		earth->advance(0.01);
+	SpaceObject *earth1 = new SpaceObject("earth",              0, 0, 0,      0, 0, 0,   5.972e24, 6.371e6); //earth
+	SpaceObject *stone1 = new SpaceObject("testbody_1",   0, 6.371e6, 0,      0, 0, 0,          1,       1); //1kg, 1m, sealevel
+	//earth1->report();
+	stone1->report();
+	for (int i=0; i < 100; i++) {
+		//printf("%3.1fs stone delta=%5.2f\n", 0.01*(float)i, stone1->get_pos(1) - 6.371e6);
+		stone1->clearForce();
+		stone1->add_forceInteraction(earth1);
+		stone1->advance(0.01);
 	}
-	stone->report();
+	stone1->report();
+	check("drop path after 1s", stone1->get_pos(1) - 6.371e6, -4.9, 0.1, err, pass);
+
+	printf("**--drop test y --**\n");
+	//                                     name                    pos           move          m        r
+	SpaceObject *earth2 = new SpaceObject("earth",              0, 0, 0,      0, 0, 0,   5.972e24, 6.371e6); //earth
+	SpaceObject *stone2 = new SpaceObject("testbody_1",   6.371e6, 0, 0,      0, 0, 0,          1,       1); //1kg, 1m, sealevel
+	//earth2->report();
+	stone2->report();
+	for (int i=0; i < 100; i++) {
+		//printf("%3.1fs stone delta=%5.2f\n", 0.01*(float)i, stone2->get_pos(0) - 6.371e6);
+		stone2->clearForce();
+		stone2->add_forceInteraction(earth2);
+		stone2->advance(0.01);
+	}
+	stone2->report();
+	check("drop path after 1s", stone2->get_pos(0) - 6.371e6, -4.9, 0.1, err, pass);
 }
 	
 	
