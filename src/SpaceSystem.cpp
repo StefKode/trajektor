@@ -51,6 +51,7 @@ void SpaceSystem::advance_all(double deltaT)
 	###########################################*/
 
 	for (A=0; A < m_system.size(); A++) {
+		m_system[A]->clearForce();
 		for (B=0; B < m_system.size(); B++) {
 			if (A != B) {
 				m_system[A]->add_forceInteraction(m_system[B]);
