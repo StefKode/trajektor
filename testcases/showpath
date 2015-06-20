@@ -40,16 +40,17 @@ do
 	echo "set label '$obj' at $(tail -n 1 $DATA.$obj) textcolor rgb 'white'" >> $tmp
 done
 
-echo "splot \\" >> $tmp
+echo "plot \\" >> $tmp
 for obj in $header;
 do
-	echo "   '$DATA.$obj' using 1:2:3 with lines, \\" >> $tmp
+	#echo "   '$DATA.$obj' using 1:2:3 with lines, \\" >> $tmp
+	echo "   '$DATA.$obj' using 1:2 with lines, \\" >> $tmp
 done
 echo "" >> $tmp
 echo "pause -1" >> $tmp
 /usr/local/bin/gnuplot $tmp
-for obj in $header;
-do
-	rm -f $DATA.$obj
-done
+#for obj in $header;
+#do
+#	rm -f $DATA.$obj
+#done
 rm -f $tmp

@@ -5,27 +5,30 @@
 int main()
 {
 	SpaceSystem sys;
-	double earth_r = 6.371e6;
-	double earth_m = 5.972e24;
-	double step    = 0.5;
-	int i = 0;
+//                         s      m      h    d
+	double lim_sec  = (60.0 * 60.0 * 24 * 690);
+	double step_sec = 300;
+	double dur_sec  = 0.0;
+	double capture_sec      = 0.0;
+	double capture_step_sec = lim_sec / 2000.0;
 
-	//                           name                        pos            move             m         r
-	sys.add(new SpaceObject(  "earth",  0,               0, 0,        0, 0,   0,       earth_m,  earth_r));
-	sys.add(new SpaceObject("bigrock",  0, earth_r + 900e4, 0,     1000, 0,   0,   earth_m/100,  earth_r));
-	sys.add(new SpaceObject(    "sat",  0, earth_r + 200e3, 0,    7.8e3, 9,   5,             1,        1));
+	//_________________________name_________________pos(m)_____________move(m/s)_________m(kg)_______r(m)_____
+	sys.add(new SpaceObject(  "Sun",         0,       0, 0,        0,       0, 0,    1.985e30,  696342e3));
+
+	sys.add(new SpaceObject("Earth",         0,  149.6e9,                0,     29.78e3,        0, 0,    5.972e24,   6.371e6));
+	sys.add(new SpaceObject("probe",         0, (149.6e9+6.371e6+200e3) ,0,    (29.78e3+11.8e3), 0, 0,           1,         1));
+
+	sys.add(new SpaceObject( "Mars",  -227.9e9,       0, 0,        0, 24.07e3, 0,  0.64174e24,  3.3962e6));
+
 	sys.listObjects();
 
-	while (1) {
-		sys.advance_all(step);
-		//printf("%dmin | ", (int)(step * (double)i/60.0));
-		//sys.report("sat");
-		//printf("\033[1A");
-		//printf("%s %f, %f, %f\n", sat.get_name(), sat.get_pos(0), sat.get_pos(1), sat.get_pos(2));
-		sys.posLog();
-		i++;
-		if ((int)(step * (double)i/60.0) > 300) {
-			break;
+	while (dur_sec < lim_sec) {
+		sys.advance_all(step_sec);
+		if (capture_sec <= dur_sec) {
+			sys.posLog();
+			capture_sec = dur_sec + capture_step_sec;
+			//printf("-------dur=%f capt=%f step=%f\n", dur_sec, capture_sec, capture_step_sec);
 		}
+		dur_sec += step_sec;
 	}
 }
