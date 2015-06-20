@@ -32,6 +32,8 @@ class SpaceSystem {
 		void advance_all(double deltaT);
 		void report();
 		void report(const char *name);
+		void posLog();
+		void listObjects();
 		
 	private:
 		std::vector<SpaceObject*> m_system;

@@ -90,6 +90,12 @@ void SpaceObject::report()
 	printf("\n");
 }
 
+void SpaceObject::posLog()
+{
+	printf("%s ", mref_name);
+	printf("%f, %f, %f\n", get_pos(0), get_pos(1), get_pos(2));
+}
+
 Position* SpaceObject::get_posRef()
 {
 	return m_pos;
@@ -114,4 +120,9 @@ bool SpaceObject::nameMatch(const char *name)
 		return true;
 	}
 	return false;
+}
+
+const char *SpaceObject::getName()
+{
+	return mref_name;
 }

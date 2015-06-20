@@ -1,0 +1,55 @@
+#!/bin/bash
+
+DATA="$1"
+
+if [ ! -e "$DATA" ]; then
+	echo "file not found: $DATA"
+	exit 1
+fi
+
+header=$(head -n 1 $DATA | grep "objects:" | sed -e 's/objects: //')
+
+if [ "$header" = "" ]; then
+	echo "no object list found"
+	exit 1
+fi
+
+echo "Objects = $header"
+
+for obj in $header;
+do
+	echo "sort out: $DATA.$obj"
+	grep $obj $DATA | grep -v "objects:" | sed -e "s/$obj //" > $DATA.$obj
+done
+
+tmp=$(tempfile)
+echo "using tmpfile $tmp"
+
+echo "set ticslevel 0" >> $tmp
+echo "set terminal x11 enhanced background rgb 'black' font '16'" >> $tmp
+echo "reset" >> $tmp
+echo "set border linecolor rgb 'grey'" >> $tmp
+echo "set key textcolor rgb 'grey'" >> $tmp
+echo "set title 'Test Plot' textcolor rgb 'grey'" >> $tmp
+echo "set grid ytics lt 0 lw 1 lc rgb 'grey'" >> $tmp
+echo "set grid xtics lt 0 lw 1 lc rgb 'grey'" >> $tmp
+
+for obj in $header;
+do
+	echo "set marker: $obj"
+	echo "set label '$obj' at $(tail -n 1 $DATA.$obj) textcolor rgb 'white'" >> $tmp
+done
+
+echo "splot \\" >> $tmp
+for obj in $header;
+do
+	echo "   '$DATA.$obj' using 1:2:3 with lines, \\" >> $tmp
+done
+echo "" >> $tmp
+echo "pause -1" >> $tmp
+/usr/local/bin/gnuplot $tmp
+for obj in $header;
+do
+	rm -f $DATA.$obj
+done
+rm -f $tmp

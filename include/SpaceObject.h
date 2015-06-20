@@ -44,7 +44,9 @@ class SpaceObject {
 		void	  clearForce();
 		double    get_mass();
 		void      report();
+		void      posLog();
 		bool      nameMatch(const char *);
+		const char * getName();
 		
 	private:
 

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+make && ./test_basic_obj > path.txt
+
+./showpath path.txt
+
+rm -f path.txt

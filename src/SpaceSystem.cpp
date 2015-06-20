@@ -20,6 +20,7 @@
  ######################################################################################*/
 
 #include<SpaceSystem.h>
+#include<stdio.h>
 
 SpaceSystem::SpaceSystem()
 {
@@ -70,6 +71,22 @@ void SpaceSystem::report()
 	for(unsigned int i=0; i < m_system.size(); i++){
 		m_system[i]->report();
 	}
+}
+
+void SpaceSystem::posLog()
+{
+	for(unsigned int i=0; i < m_system.size(); i++){
+		m_system[i]->posLog();
+	}
+}
+
+void SpaceSystem::listObjects()
+{
+	printf("objects: ");
+	for(unsigned int i=0; i < m_system.size(); i++){
+		printf("%s ", m_system[i]->getName());
+	}
+	printf("\n");
 }
 
 void SpaceSystem::report(const char *name)
