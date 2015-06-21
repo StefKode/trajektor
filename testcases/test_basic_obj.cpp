@@ -6,7 +6,8 @@ int main()
 {
 	SpaceSystem sys;
 //                         s      m      h    d
-	double lim_sec  = (60.0 * 60.0 * 24 * 690);
+	//double lim_sec  = (60.0 * 60.0 * 24 * 690);
+	double lim_sec  = (60.0 * 60.0 * 24 * 590);
 	double step_sec = 300;
 	double dur_sec  = 0.0;
 	double capture_sec      = 0.0;
@@ -26,6 +27,7 @@ int main()
 		sys.advance_all(step_sec);
 		if (capture_sec <= dur_sec) {
 			sys.posLog();
+			sys.vLog(dur_sec, capture_step_sec);
 			capture_sec = dur_sec + capture_step_sec;
 			//printf("-------dur=%f capt=%f step=%f\n", dur_sec, capture_sec, capture_step_sec);
 		}

@@ -80,6 +80,13 @@ void SpaceSystem::posLog()
 	}
 }
 
+void SpaceSystem::vLog(double simtime, double step)
+{
+	for(unsigned int i=0; i < m_system.size(); i++){
+		m_system[i]->vLog(simtime, step);
+	}
+}
+
 void SpaceSystem::listObjects()
 {
 	printf("objects: ");

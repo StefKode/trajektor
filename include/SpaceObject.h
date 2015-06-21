@@ -45,6 +45,7 @@ class SpaceObject {
 		double    get_mass();
 		void      report();
 		void      posLog();
+		void      vLog(double simtime, double step);
 		bool      nameMatch(const char *);
 		const char * getName();
 		

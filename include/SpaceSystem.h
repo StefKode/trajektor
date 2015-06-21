@@ -33,6 +33,7 @@ class SpaceSystem {
 		void report();
 		void report(const char *name);
 		void posLog();
+		void vLog(double simtime, double step);
 		void listObjects();
 		
 	private:

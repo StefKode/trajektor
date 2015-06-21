@@ -96,6 +96,14 @@ void SpaceObject::posLog()
 	printf("%f, %f, %f\n", get_pos(0), get_pos(1), get_pos(2));
 }
 
+void SpaceObject::vLog(double simtime, double step)
+{
+	printf("%s-v ", mref_name);
+	printf("%f, %f\n", simtime, m_move->get_vect().norm());
+	printf("%s-s ", mref_name);
+	printf("%f, %f\n", simtime, m_move->get_vect().norm() * step);
+}
+
 Position* SpaceObject::get_posRef()
 {
 	return m_pos;
