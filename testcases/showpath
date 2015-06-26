@@ -80,6 +80,7 @@ echo "set key textcolor rgb 'grey'" >> $tmp
 echo "set title 'Trajectory View' textcolor rgb 'grey'" >> $tmp
 echo "set grid ytics lt 0 lw 1 lc rgb 'grey'" >> $tmp
 echo "set grid xtics lt 0 lw 1 lc rgb 'grey'" >> $tmp
+echo "unset colorbox" >> $tmp
 for obj in $header;
 do
 	echo "set marker: $obj"
@@ -150,4 +151,4 @@ do
 	rm -f "${tmpbase}.2"
 	rm -f "${tmpbase}.3"
 done
-rm -f $tmp
+rm -f $tmp_base
