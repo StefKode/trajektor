@@ -5,3 +5,7 @@ make && ./test_basic_obj > path.txt
 ./showpath path.txt
 
 rm -f path.txt
+
+montage -gravity north -tile 2x2 -geometry 1500x1000-5-5 -background black out_trajectory.png out_velocity.png out_trajectory-d.png out_simstep.png out.png && \
+convert out.png -normalize result.png && rm -f out.png && \
+eom -f result.png

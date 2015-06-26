@@ -40,6 +40,7 @@ echo "using tmpfile $tmp"
 ######################################################################################
 ##trajectory view
 tmp="${tmpbase}.1"
+rm -f $tmp
 echo "set ticslevel 0" >> $tmp
 echo "set terminal png size 800,700 background rgb 'black' enhanced font 'Helvetica,12'" >> $tmp
 echo "set output 'out_trajectory.png'" >> $tmp
@@ -68,6 +69,7 @@ echo "quit" >> $tmp
 ######################################################################################
 ##trajectory view
 tmp="${tmpbase}.1d"
+rm -f $tmp
 echo "set ticslevel 0" >> $tmp
 echo "set terminal png size 800,700 background rgb 'black' enhanced font 'Helvetica,12'" >> $tmp
 echo "set output 'out_trajectory-d.png'" >> $tmp
@@ -95,6 +97,7 @@ echo "quit" >> $tmp
 ######################################################################################
 ##velocity view
 tmp="${tmpbase}.2"
+rm -f $tmp
 echo "set ticslevel 0" >> $tmp
 echo "set terminal png size 700,500 background rgb 'black' enhanced font 'Helvetica,12'" >> $tmp
 echo "set output 'out_velocity.png'" >> $tmp
@@ -117,6 +120,7 @@ echo "quit" >> $tmp
 ######################################################################################
 ##simstep view
 tmp="${tmpbase}.3"
+rm -f $tmp
 echo "set ticslevel 0" >> $tmp
 echo "set terminal png size 700,500 background rgb 'black' enhanced font 'Helvetica,12'" >> $tmp
 echo "set output 'out_simstep.png'" >> $tmp
@@ -142,6 +146,7 @@ do
 	rm -f $DATA.$obj.v
 	rm -f $DATA.$obj.s
 	rm -f "${tmpbase}.1"
+	rm -f "${tmpbase}.1d"
 	rm -f "${tmpbase}.2"
 	rm -f "${tmpbase}.3"
 done

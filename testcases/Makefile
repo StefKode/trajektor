@@ -17,7 +17,7 @@ test:	all
 	g++ -g -c -I../include -I/usr/include/eigen3 -Wall $< -o $@
 
 clean:
-	rm -f *.o
+	rm -f *.o test_basic_obj test_unit *.png
 	for targ in $(TARGETS); do \
 		rm -f $$targ; \
 	done
