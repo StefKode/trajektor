@@ -80,7 +80,8 @@ echo "set key textcolor rgb 'grey'" >> $tmp
 echo "set title 'Trajectory View' textcolor rgb 'grey'" >> $tmp
 echo "set grid ytics lt 0 lw 1 lc rgb 'grey'" >> $tmp
 echo "set grid xtics lt 0 lw 1 lc rgb 'grey'" >> $tmp
-echo "unset colorbox" >> $tmp
+echo "set nokey" >> $tmp
+echo "set size 1.1,1.1" >> $tmp
 for obj in $header;
 do
 	echo "set marker: $obj"
