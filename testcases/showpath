@@ -51,16 +51,25 @@ echo "set key textcolor rgb 'grey'" >> $tmp
 echo "set title 'Trajectory View' textcolor rgb 'grey'" >> $tmp
 echo "set grid ytics lt 0 lw 1 lc rgb 'grey'" >> $tmp
 echo "set grid xtics lt 0 lw 1 lc rgb 'grey'" >> $tmp
+# start value for H
+echo "h1 = 117/360.0" >> $tmp
+# end value for H
+echo "h2 = 227/360.0" >> $tmp
+# creating the palette by specifying H,S,V
+echo "set palette model HSV functions (1-gray)*(h2-h1)+h1,1,0.68" >> $tmp
 for obj in $header;
 do
 	echo "set marker: $obj"
-	echo "set label '$obj' at $(tail -n 1 $DATA.$obj) textcolor rgb 'white'" >> $tmp
+	echo "set label '$obj' at $(tail -n 1 $DATA.$obj | sed -e 's/, [0-9\.-]*$//') textcolor rgb 'white'" >> $tmp
 done
 echo "plot \\" >> $tmp
 for obj in $header;
 do
-	#echo "   '$DATA.$obj' using 1:2:3 with lines, \\" >> $tmp
-	echo "   '$DATA.$obj' using 1:2 with lines, \\" >> $tmp
+	if [ "$obj" = "probe" ]; then
+		echo "   '$DATA.$obj' using 1:2:4 with lines lc palette, \\" >> $tmp
+	else
+		echo "   '$DATA.$obj' using 1:2:4 with lines, \\" >> $tmp
+	fi
 done
 echo "" >> $tmp
 echo "quit" >> $tmp
@@ -85,7 +94,7 @@ echo "set size 1.1,1.1" >> $tmp
 for obj in $header;
 do
 	echo "set marker: $obj"
-	echo "set label '$obj' at $(tail -n 1 $DATA.$obj) textcolor rgb 'white'" >> $tmp
+	echo "set label '$obj' at $(tail -n 1 $DATA.$obj | sed -e 's/, [0-9\.-]*$//') textcolor rgb 'white'" >> $tmp
 done
 echo "splot \\" >> $tmp
 for obj in $header;
@@ -142,6 +151,7 @@ echo "" >> $tmp
 echo "quit" >> $tmp
 /usr/bin/gnuplot $tmp
 
+exit
 for obj in $header;
 do
 	rm -f $DATA.$obj

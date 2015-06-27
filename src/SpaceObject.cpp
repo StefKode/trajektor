@@ -93,7 +93,7 @@ void SpaceObject::report()
 void SpaceObject::posLog()
 {
 	printf("%s ", mref_name);
-	printf("%f, %f, %f\n", get_pos(0), get_pos(1), get_pos(2));
+	printf("%f, %f, %f, %f\n", get_pos(0), get_pos(1), get_pos(2), m_move->get_vect().norm());
 }
 
 void SpaceObject::vLog(double simtime, double step)
