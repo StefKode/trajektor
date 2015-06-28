@@ -1,4 +1,5 @@
 #!/bin/bash
+SHOW_2D=1
 
 DATA="$1"
 
@@ -42,7 +43,9 @@ echo "using tmpfile $tmp"
 tmp="${tmpbase}.1"
 rm -f $tmp
 echo "set ticslevel 0" >> $tmp
-echo "set terminal png size 800,700 background rgb 'black' enhanced font 'Helvetica,12'" >> $tmp
+echo "set terminal x11 background rgb 'black' enhanced font 'Helvetica,12'" >> $tmp
+#echo "set terminal png size 800,700 background rgb 'black' enhanced font 'Helvetica,12'" >> $tmp
+#echo "set terminal png size 1300,1000 background rgb 'black' enhanced font 'Helvetica,12'" >> $tmp
 echo "set output 'out_trajectory.png'" >> $tmp
 echo "set xtics rotate" >> $tmp
 echo "set bmargin 5" >> $tmp
@@ -52,11 +55,11 @@ echo "set title 'Trajectory View' textcolor rgb 'grey'" >> $tmp
 echo "set grid ytics lt 0 lw 1 lc rgb 'grey'" >> $tmp
 echo "set grid xtics lt 0 lw 1 lc rgb 'grey'" >> $tmp
 # start value for H
-echo "h1 = 117/360.0" >> $tmp
+echo "h1 = 0/360.0" >> $tmp
 # end value for H
-echo "h2 = 227/360.0" >> $tmp
+echo "h2 = 121/360.0" >> $tmp
 # creating the palette by specifying H,S,V
-echo "set palette model HSV functions (1-gray)*(h2-h1)+h1,1,0.68" >> $tmp
+echo "set palette model HSV functions (1-gray)*(h2-h1)+h1,1,1" >> $tmp
 for obj in $header;
 do
 	echo "set marker: $obj"
@@ -72,86 +75,92 @@ do
 	fi
 done
 echo "" >> $tmp
-echo "quit" >> $tmp
+#echo "quit" >> $tmp
+echo "pause -1" >> $tmp
 /usr/bin/gnuplot $tmp
 
 ######################################################################################
 ##trajectory view
-tmp="${tmpbase}.1d"
-rm -f $tmp
-echo "set ticslevel 0" >> $tmp
-echo "set terminal png size 800,700 background rgb 'black' enhanced font 'Helvetica,12'" >> $tmp
-echo "set output 'out_trajectory-d.png'" >> $tmp
-echo "set xtics rotate" >> $tmp
-echo "set bmargin 5" >> $tmp
-echo "set border linecolor rgb 'grey'" >> $tmp
-echo "set key textcolor rgb 'grey'" >> $tmp
-echo "set title 'Trajectory View' textcolor rgb 'grey'" >> $tmp
-echo "set grid ytics lt 0 lw 1 lc rgb 'grey'" >> $tmp
-echo "set grid xtics lt 0 lw 1 lc rgb 'grey'" >> $tmp
-echo "set nokey" >> $tmp
-echo "set size 1.1,1.1" >> $tmp
-for obj in $header;
-do
-	echo "set marker: $obj"
-	echo "set label '$obj' at $(tail -n 1 $DATA.$obj | sed -e 's/, [0-9\.-]*$//') textcolor rgb 'white'" >> $tmp
-done
-echo "splot \\" >> $tmp
-for obj in $header;
-do
-	echo "   '$DATA.$obj' using 1:2:3 with lines, \\" >> $tmp
-done
-echo "" >> $tmp
-echo "quit" >> $tmp
-/usr/bin/gnuplot $tmp
+if [ "$SHOW_3D" = "1" ]; then
+	tmp="${tmpbase}.1d"
+	rm -f $tmp
+	echo "set ticslevel 0" >> $tmp
+	echo "set terminal png size 800,700 background rgb 'black' enhanced font 'Helvetica,12'" >> $tmp
+	echo "set output 'out_trajectory-d.png'" >> $tmp
+	echo "set xtics rotate" >> $tmp
+	echo "set bmargin 5" >> $tmp
+	echo "set border linecolor rgb 'grey'" >> $tmp
+	echo "set key textcolor rgb 'grey'" >> $tmp
+	echo "set title 'Trajectory View' textcolor rgb 'grey'" >> $tmp
+	echo "set grid ytics lt 0 lw 1 lc rgb 'grey'" >> $tmp
+	echo "set grid xtics lt 0 lw 1 lc rgb 'grey'" >> $tmp
+	echo "set nokey" >> $tmp
+	echo "set size 1.1,1.1" >> $tmp
+	for obj in $header;
+	do
+		echo "set marker: $obj"
+		echo "set label '$obj' at $(tail -n 1 $DATA.$obj | sed -e 's/, [0-9\.-]*$//') textcolor rgb 'white'" >> $tmp
+	done
+	echo "splot \\" >> $tmp
+	for obj in $header;
+	do
+		echo "   '$DATA.$obj' using 1:2:3 with lines, \\" >> $tmp
+	done
+	echo "" >> $tmp
+	echo "quit" >> $tmp
+	/usr/bin/gnuplot $tmp
+fi
 
 ######################################################################################
 ##velocity view
-tmp="${tmpbase}.2"
-rm -f $tmp
-echo "set ticslevel 0" >> $tmp
-echo "set terminal png size 700,500 background rgb 'black' enhanced font 'Helvetica,12'" >> $tmp
-echo "set output 'out_velocity.png'" >> $tmp
-echo "set xtics rotate" >> $tmp
-echo "set bmargin 5" >> $tmp
-echo "set border linecolor rgb 'grey'" >> $tmp
-echo "set key textcolor rgb 'grey'" >> $tmp
-echo "set title 'Velocity View' textcolor rgb 'grey'" >> $tmp
-echo "set grid ytics lt 0 lw 1 lc rgb 'grey'" >> $tmp
-echo "set grid xtics lt 0 lw 1 lc rgb 'grey'" >> $tmp
-echo "plot \\" >> $tmp
-for obj in $header;
-do
-	echo "   '$DATA.$obj.v' using 1:2 with lines, \\" >> $tmp
-done
-echo "" >> $tmp
-echo "quit" >> $tmp
-/usr/bin/gnuplot $tmp
+if [ "$SHOW_V" = "1" ]; then
+	tmp="${tmpbase}.2"
+	rm -f $tmp
+	echo "set ticslevel 0" >> $tmp
+	echo "set terminal png size 700,500 background rgb 'black' enhanced font 'Helvetica,12'" >> $tmp
+	echo "set output 'out_velocity.png'" >> $tmp
+	echo "set xtics rotate" >> $tmp
+	echo "set bmargin 5" >> $tmp
+	echo "set border linecolor rgb 'grey'" >> $tmp
+	echo "set key textcolor rgb 'grey'" >> $tmp
+	echo "set title 'Velocity View' textcolor rgb 'grey'" >> $tmp
+	echo "set grid ytics lt 0 lw 1 lc rgb 'grey'" >> $tmp
+	echo "set grid xtics lt 0 lw 1 lc rgb 'grey'" >> $tmp
+	echo "plot \\" >> $tmp
+	for obj in $header;
+	do
+		echo "   '$DATA.$obj.v' using 1:2 with lines, \\" >> $tmp
+	done
+	echo "" >> $tmp
+	echo "quit" >> $tmp
+	/usr/bin/gnuplot $tmp
+fi
 
 ######################################################################################
 ##simstep view
-tmp="${tmpbase}.3"
-rm -f $tmp
-echo "set ticslevel 0" >> $tmp
-echo "set terminal png size 700,500 background rgb 'black' enhanced font 'Helvetica,12'" >> $tmp
-echo "set output 'out_simstep.png'" >> $tmp
-echo "set xtics rotate" >> $tmp
-echo "set bmargin 5" >> $tmp
-echo "set border linecolor rgb 'grey'" >> $tmp
-echo "set key textcolor rgb 'grey'" >> $tmp
-echo "set title 'Distance Progression per Sim-Cycle' textcolor rgb 'grey'" >> $tmp
-echo "set grid ytics lt 0 lw 1 lc rgb 'grey'" >> $tmp
-echo "set grid xtics lt 0 lw 1 lc rgb 'grey'" >> $tmp
-echo "plot \\" >> $tmp
-for obj in $header;
-do
-	echo "   '$DATA.$obj.s' using 1:2 with lines, \\" >> $tmp
-done
-echo "" >> $tmp
-echo "quit" >> $tmp
-/usr/bin/gnuplot $tmp
+if [ "$SHOW_V" = "1" ]; then
+	tmp="${tmpbase}.3"
+	rm -f $tmp
+	echo "set ticslevel 0" >> $tmp
+	echo "set terminal png size 700,500 background rgb 'black' enhanced font 'Helvetica,12'" >> $tmp
+	echo "set output 'out_simstep.png'" >> $tmp
+	echo "set xtics rotate" >> $tmp
+	echo "set bmargin 5" >> $tmp
+	echo "set border linecolor rgb 'grey'" >> $tmp
+	echo "set key textcolor rgb 'grey'" >> $tmp
+	echo "set title 'Distance Progression per Sim-Cycle' textcolor rgb 'grey'" >> $tmp
+	echo "set grid ytics lt 0 lw 1 lc rgb 'grey'" >> $tmp
+	echo "set grid xtics lt 0 lw 1 lc rgb 'grey'" >> $tmp
+	echo "plot \\" >> $tmp
+	for obj in $header;
+	do
+		echo "   '$DATA.$obj.s' using 1:2 with lines, \\" >> $tmp
+	done
+	echo "" >> $tmp
+	echo "quit" >> $tmp
+	/usr/bin/gnuplot $tmp
+fi
 
-exit
 for obj in $header;
 do
 	rm -f $DATA.$obj
