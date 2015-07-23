@@ -7,7 +7,7 @@ int main()
 	SpaceSystem sys;
 //                         s      m      h    d
 	//double lim_sec  = (60.0 * 60.0 * 24 * 690);
-	double lim_sec  = (60.0 * 60.0 * 24 * 300);
+	double lim_sec  = (60.0 * 90.0 * 1 * 1);
 	double step_sec = 30;
 	double dur_sec  = 0.0;
 	double capture_sec      = 0.0;

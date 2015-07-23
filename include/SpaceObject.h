@@ -25,6 +25,7 @@
 #include<Force.h>
 #include<Movement.h>
 #include<Position.h>
+#include<Propulsion.h>
 #include<Eigen/Dense>
 
 using namespace Eigen;
@@ -40,6 +41,7 @@ class SpaceObject {
 		Position *get_posRef();
 		double    get_pos(unsigned int idx);
 		void      add_forceInteraction(SpaceObject *other);
+		void      set_propulsion(Propulsion *prop);
 		void      advance(double deltaT);
 		void	  clearForce();
 		double    get_mass();
@@ -57,6 +59,7 @@ class SpaceObject {
 		Body     *m_body;
 		Force    *m_force;
 		const char *mref_name;
+		double    m_sumTime;
 
 		//optional properties
 };

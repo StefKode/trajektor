@@ -38,6 +38,8 @@ SpaceObject::SpaceObject(const char *name,
 	m_body  = new Body(mass, radius);
 	m_force = new Force();
 	mref_name = name;
+	m_prop  = NULL;
+	m_sumTime = 0;
 }
 
 SpaceObject::~SpaceObject()
@@ -50,6 +52,11 @@ SpaceObject::~SpaceObject()
 
 double SpaceObject::get_mass() {
 	return m_body->get_mass();
+}
+
+void SpaceObject::set_propulsion(Propulsion *prop)
+{
+	m_prop = prop;
 }
 
 void SpaceObject::add_forceInteraction(SpaceObject *other)
@@ -69,13 +76,20 @@ void SpaceObject::add_forceInteraction(SpaceObject *other)
 void SpaceObject::advance(double deltaT)
 {
 	Vector3d mAddVect;
+	Vector3d prop;
+
+	prop << 0,0,0;
+	m_sumTime += deltaT;
 
 	//F=m*a
 	//a=F/m
 	//move_change=a * deltaT
 	//move_new = move_old + move_change
 
-	mAddVect = deltaT * m_force->get_vect() / m_body->get_mass();
+	if (m_prop != NULL) {
+		m_prop->get_curThrust(m_move->normalize(), &prop, m_sumTime);
+	}
+	mAddVect = deltaT * (m_force->get_vect() + prop)/ m_body->get_mass();
 
 	m_move->add_moveVector(mAddVect);
 	m_pos->advance(m_move, deltaT);
