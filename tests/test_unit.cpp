@@ -1,54 +1,57 @@
+#include <gtest/gtest.h>
+
 #include <SpaceSystem.h>
 #include<stdio.h>
 #include<math.h>
 #include<Eigen/Dense>
 
-void check(const char *text, double is, double must, double tolerance, int *err, int *pass)
+testing::AssertionResult float_match(double is, double must, double tolerance)
 {
-	printf("%-20s : ", text);
 	if (fabs(is - must) <= tolerance) {
-		printf("OK");
-		(*pass)++;
-	} else {
-		printf("FAIL (is=%E, must=%E, tolerance=%E)", is, must, tolerance);
-		(*err)++;
+		return testing::AssertionSuccess();
 	}
-	printf("\n");
+	return testing::AssertionFailure() << is << " does not match " << must;
 }
 
-void t_eigen(int *err, int *pass)
+TEST(t_eigen, x)
 {
-	//-----------------------------------------------------------------
-	printf("****** Test Eigen ********\n");
 	Vector3d v;
 	v << 1.1, 2.2, 3.3;
-	printf("x = %e  y = %e  z = %e\n", v(0), v(1), v(2));
-	check("Eigen x", v(0), 1.1, 0.0, err, pass);
-	check("Eigen y", v(1), 2.2, 0.0, err, pass);
-	check("Eigen z", v(2), 3.3, 0.0, err, pass);
+	EXPECT_TRUE(float_match(v(0), 1.1, 0.0));
 }
 
-void t_position_move(int *err, int *pass)
+TEST(t_eigen, y)
 {
-	//-----------------------------------------------------------------
-	printf("****** Test Position and Move *******\n");
 	Vector3d v;
 	v << 1.1, 2.2, 3.3;
-	printf("x = %e  y = %e  z = %e\n", v(0), v(1), v(2));
+	EXPECT_TRUE(float_match(v(1), 2.2, 0.0));
+}
+
+TEST(t_eigen, z)
+{
+	Vector3d v;
+	v << 1.1, 2.2, 3.3;
+	EXPECT_TRUE(float_match(v(2), 3.3, 0.0));
+}
+
+TEST(t_position_move, none)
+{
+	Vector3d v;
+	v << 1.1, 2.2, 3.3;
 	Position p(v);
-	p.report();
-	printf("\n");
-	check("New Eigen x", (p.get_vect())(0), 1.1, 0.0, err, pass);
-	check("New Eigen y", (p.get_vect())(1), 2.2, 0.0, err, pass);
-	check("New Eigen z", (p.get_vect())(2), 3.3, 0.0, err, pass);
-
+	//p.report();
+	//printf("\n");
+	EXPECT_TRUE(float_match((p.get_vect())(0), 1.1, 0.0)) << "New Eigen x" << std::endl;
+	EXPECT_TRUE(float_match((p.get_vect())(1), 2.2, 0.0)) << "New Eigen y" << std::endl;
+	EXPECT_TRUE(float_match((p.get_vect())(2), 3.3, 0.0)) << "New Eigen z" << std::endl;
 	Vector3d base;
 	Vector3d other;
 	base  << 0, 0, 0;
 	other << 2, 1, 0;
 	Position p0(base);
 	Position p1(other);
-	check("distance_to", p1.distance_to(&p0), sqrt(5), 0.001, err, pass);
+	EXPECT_TRUE(float_match(p1.distance_to(&p0), sqrt(6), 0.001)) << "distance_to" << std::endl;
+#if 0
 
 	Vector3d move_vect;
 	move_vect << 1, 1, 0;
@@ -72,8 +75,10 @@ void t_position_move(int *err, int *pass)
 	check("move3 pos x", (p0.get_vect())(0), -1.0, 0.0, err, pass);
 	check("move3 pos y", (p0.get_vect())(1), -1.0, 0.0, err, pass);
 	check("move3 pos z", (p0.get_vect())(2), 0.0, 0.0, err, pass);
+#endif
 }
 
+#if 0
 void t_force(int *err, int *pass)
 {
 	//-----------------------------------------------------------------
@@ -136,10 +141,14 @@ void t_spaceobject(int *err, int *pass)
 	stone2->report();
 	check("drop path after 1s", stone2->get_pos(0) - 6.371e6, -4.9, 0.1, err, pass);
 }
-	
-	
-int main()
+#endif
+
+
+int main(int argc, char **argv)
 {
+	testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
+#if 0
 	int err  = 0;
 	int pass = 0;
 	
@@ -151,4 +160,5 @@ int main()
 	printf("\n-----------------------------\n");
 	printf("PASS = %d\n", pass);
 	printf("FAIL = %d\n", err);
+#endif
 }
