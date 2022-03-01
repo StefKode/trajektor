@@ -50,7 +50,7 @@ TEST(t_position_move, none)
 	other << 2, 1, 0;
 	Position p0(base);
 	Position p1(other);
-	EXPECT_TRUE(float_match(p1.distance_to(&p0), sqrt(6), 0.001)) << "distance_to" << std::endl;
+	EXPECT_TRUE(float_match(p1.distance_to(&p0), sqrt(5), 0.001)) << "distance_to" << std::endl;
 #if 0
 
 	Vector3d move_vect;
