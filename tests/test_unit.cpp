@@ -5,6 +5,7 @@
 #include<math.h>
 #include<Eigen/Dense>
 
+
 testing::AssertionResult float_match(double is, double must, double tolerance)
 {
 	if (fabs(is - must) <= tolerance) {
@@ -13,59 +14,104 @@ testing::AssertionResult float_match(double is, double must, double tolerance)
 	return testing::AssertionFailure() << is << " does not match " << must;
 }
 
-TEST(t_eigen, x)
-{
+/* EIGEN TESTS ***********************************************************************/
+/* Fixture */
+class t_eigen_f : public ::testing::Test {
+protected:
+	virtual void SetUp() {
+		v << 1.1, 2.2, 3.3;
+	}
+	virtual void TearDown() {
+	}
 	Vector3d v;
-	v << 1.1, 2.2, 3.3;
+};
+
+/* Test cases */
+TEST_F(t_eigen_f, x)
+{
 	EXPECT_TRUE(float_match(v(0), 1.1, 0.0));
 }
 
-TEST(t_eigen, y)
+TEST_F(t_eigen_f, y)
 {
-	Vector3d v;
-	v << 1.1, 2.2, 3.3;
 	EXPECT_TRUE(float_match(v(1), 2.2, 0.0));
 }
 
-TEST(t_eigen, z)
+TEST_F(t_eigen_f, z)
 {
-	Vector3d v;
-	v << 1.1, 2.2, 3.3;
 	EXPECT_TRUE(float_match(v(2), 3.3, 0.0));
 }
 
-TEST(t_position_move, none)
-{
+/* POSITION TESTS ***********************************************************************/
+/* Fixture */
+class t_position_f : public ::testing::Test {
+protected:
+	virtual void SetUp() {
+		v << 1.1, 2.2, 3.3;
+	}
+	virtual void TearDown() {
+		if (p  != NULL) delete(p);
+		if (p0 != NULL) delete(p0);
+		if (p1 != NULL) delete(p1);
+		if (move != NULL) delete(move);
+	}
+	void t00_makepos() {
+		p = new Position(v);
+	}
+	void t01_makedistance() {
+		base  << 0, 0, 0;
+		other << 2, 1, 0;
+		p0 = new Position(base);
+		p1 = new Position(other);
+	}
+	void t02_move1() {
+		move_vect << 1, 1, 0;
+		move = new Movement(move_vect);
+		p0->advance(move, 1);
+	}
+	void t03_move2() {
+		Vector3d new_move;
+		new_move << -1, -1, 0;
+		move->add_moveVector(new_move); //stop
+		move->add_moveVector(new_move); //backward
+		p0->advance(move, 1);
+	}
 	Vector3d v;
-	v << 1.1, 2.2, 3.3;
-	Position p(v);
-	//p.report();
-	//printf("\n");
-	EXPECT_TRUE(float_match((p.get_vect())(0), 1.1, 0.0)) << "New Eigen x" << std::endl;
-	EXPECT_TRUE(float_match((p.get_vect())(1), 2.2, 0.0)) << "New Eigen y" << std::endl;
-	EXPECT_TRUE(float_match((p.get_vect())(2), 3.3, 0.0)) << "New Eigen z" << std::endl;
 	Vector3d base;
 	Vector3d other;
-	base  << 0, 0, 0;
-	other << 2, 1, 0;
-	Position p0(base);
-	Position p1(other);
-	EXPECT_TRUE(float_match(p1.distance_to(&p0), sqrt(5), 0.001)) << "distance_to" << std::endl;
-#if 0
-
 	Vector3d move_vect;
-	move_vect << 1, 1, 0;
-	Movement move(move_vect);
-	p0.advance(&move, 1);
-	//check
-	check("move1 pos x", (p0.get_vect())(0), 1.0, 0.0, err, pass);
-	check("move1 pos y", (p0.get_vect())(1), 1.0, 0.0, err, pass);
-	check("move1 pos z", (p0.get_vect())(2), 0.0, 0.0, err, pass);
-	Vector3d new_move;
-	new_move << -1, -1, 0;
-	move.add_moveVector(new_move); //stop
-	move.add_moveVector(new_move); //backward
-	p0.advance(&move, 1);
+	Position *p = NULL;
+	Position *p0 = NULL;
+	Position *p1 = NULL;
+	Movement *move;
+};
+
+/* Test cases */
+TEST_F(t_position_f, makepos)
+{
+	t00_makepos();
+	EXPECT_TRUE(float_match((p->get_vect())(0), 1.1, 0.0)) << "New Eigen x" << std::endl;
+	EXPECT_TRUE(float_match((p->get_vect())(1), 2.2, 0.0)) << "New Eigen y" << std::endl;
+	EXPECT_TRUE(float_match((p->get_vect())(2), 3.3, 0.0)) << "New Eigen z" << std::endl;
+}
+
+TEST_F(t_position_f, distance)
+{
+	t00_makepos();
+	t01_makedistance();
+	EXPECT_TRUE(float_match(p1->distance_to(p0), sqrt(5), 0.001)) << "distance_to" << std::endl;
+}
+
+TEST_F(t_position_f, move)
+{
+	t00_makepos();
+	t01_makedistance();
+	t02_move1();
+	EXPECT_TRUE(float_match((p0->get_vect())(0), 1.0, 0.0)) << "move to pos x" << std::endl;
+	EXPECT_TRUE(float_match((p0->get_vect())(1), 1.0, 0.0)) << "move to pos y" << std::endl;
+	EXPECT_TRUE(float_match((p0->get_vect())(2), 0.0, 0.0)) << "move to pos z" << std::endl;
+}
+#if 0
 	//check
 	check("move2 pos x", (p0.get_vect())(0), 0.0, 0.0, err, pass);
 	check("move2 pos y", (p0.get_vect())(1), 0.0, 0.0, err, pass);
@@ -76,7 +122,6 @@ TEST(t_position_move, none)
 	check("move3 pos y", (p0.get_vect())(1), -1.0, 0.0, err, pass);
 	check("move3 pos z", (p0.get_vect())(2), 0.0, 0.0, err, pass);
 #endif
-}
 
 #if 0
 void t_force(int *err, int *pass)
